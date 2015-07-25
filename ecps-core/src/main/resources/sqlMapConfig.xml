@@ -1,0 +1,12 @@
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	
+	<mappers>
+		<mapper resource="com/worthto/ecps/mapper/EbBrandMapper.xml"/>
+		<mapper resource="com/worthto/ecps/mapper/EbItemMapper.xml"/>
+	</mappers>
+
+</configuration>
