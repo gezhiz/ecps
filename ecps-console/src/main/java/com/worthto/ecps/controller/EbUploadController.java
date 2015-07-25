@@ -38,7 +38,7 @@ public class EbUploadController {
 	@RequestMapping("/uploadPic.do")
 	public void upload(Model model, HttpServletRequest request,
 			HttpServletResponse response, String lastPath) {
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;//文件上传的请求服务
 		MultipartFile multipartFile = multipartRequest.getFile("imgsFile");
 		byte[] fileBytes = null;
 		try {

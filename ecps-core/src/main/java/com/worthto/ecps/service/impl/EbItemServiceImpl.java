@@ -14,11 +14,11 @@ import com.worthto.ecps.utils.QueryCondition;
 @Service
 public class EbItemServiceImpl implements IEbItemService {
 
-	@Autowired
-	private IEbItemDao itemDao;
-	
+//	@Autowired
+//	private IEbItemDao itemDao;
+//	
 	public Page selectItemByCondition(QueryCondition queryCondition) {
-		List<EbItem>list = itemDao.selectItemByCondition(queryCondition);
+	//	List<EbItem>list = itemDao.selectItemByCondition(queryCondition);
 		return null;
 	}
 

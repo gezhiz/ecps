@@ -534,7 +534,7 @@
 		where ITEM_ID = #{itemId,jdbcType=DECIMAL}
 	</update>
 
-	<select id="selectItemByCondition" parameterType="com.rl.ecps.util.QueryCondition"
+	<select id="selectItemByCondition" parameterType="com.worthto.ecps.utils.QueryCondition"
 		resultMap="BaseResultMap">
 		select *
 		from (select rownum rw, a.*
@@ -564,7 +564,7 @@
 		 ]]>
 	</select>
 	<!-- 查询当前条件下的总记录数，目的是展示记录数和总页数 -->
-	<select id="selectItemByConditionCount" parameterType="com.rl.ecps.util.QueryCondition"
+	<select id="selectItemByConditionCount" parameterType="com.worthto.ecps.utils.QueryCondition"
 		resultType="int">
 		select count(*) from eb_item t
 		<where>

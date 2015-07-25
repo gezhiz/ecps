@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.worthto.ecps.model.EbBrand;
 
-@Service
 public interface IEbBrandService {
 	/**
 	 * 添加品牌

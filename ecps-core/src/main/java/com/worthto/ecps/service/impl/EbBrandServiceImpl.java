@@ -31,9 +31,10 @@ public class EbBrandServiceImpl implements IEbBrandService {
 	}
 
 	public void deleteBrandById(Long brandId) {
-		EbBrand brand = erBrandDao.selectEbBrandById(brandId);//查询结果
+		EbBrand brand = erBrandDao.selectEbBrandById(brandId);// 查询结果
 		erBrandDao.deleteBrandById(brandId);
-		uploadDao.deleteBrandPic(EcpsUtils.readProp("file_host_path")+brand.getImgs());//删除对应的图片
+		uploadDao.deleteBrandPic(EcpsUtils.readProp("file_host_path")
+				+ brand.getImgs());// 删除对应的图片
 	}
 
 	public EbBrand selectEbBrandById(Long brandId) {

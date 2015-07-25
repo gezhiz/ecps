@@ -13,7 +13,7 @@ public class UploadDaoImpl implements IUploadDao {
 	public void saveBrandPic(byte[] fileBytes, String realPath) {
 		Client client = new Client();
 		WebResource wr = client.resource(realPath);// 指定资源的路径
-		wr.put(String.class, fileBytes);
+		wr.put(fileBytes);
 	}
 
 	public void deleteBrandPic(String realPath) {
