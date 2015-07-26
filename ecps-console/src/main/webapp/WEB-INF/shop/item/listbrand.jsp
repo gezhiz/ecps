@@ -27,10 +27,6 @@
 
     }
 
-    
-
-    
-
     $(document).ready(function(){
 		$("#all").click(function(){
 	     	if($("#all").attr("checked")){

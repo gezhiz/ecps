@@ -559,8 +559,8 @@
 	
 		) a
 		          <![CDATA[
-		         where rownum < #{endNum}) b
-		 where b.rw > #{startNum}
+		         where rownum < #{endNum,jdbcType=INTEGER}) b
+		 where b.rw > #{startNum,jdbcType=INTEGER}
 		 ]]>
 	</select>
 	<!-- 查询当前条件下的总记录数，目的是展示记录数和总页数 -->

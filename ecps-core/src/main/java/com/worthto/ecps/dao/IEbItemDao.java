@@ -9,9 +9,17 @@ public interface IEbItemDao {
 
 	/**
 	 * 按条件查找商品信息
+	 * 
 	 * @param queryCondition
 	 * @return
 	 */
 	List<EbItem> selectItemByCondition(QueryCondition queryCondition);
+
+	/**
+	 * 
+	 * @param queryCondition
+	 * @return
+	 */
+	int selectItemByConditionCount(QueryCondition queryCondition);
 
 }

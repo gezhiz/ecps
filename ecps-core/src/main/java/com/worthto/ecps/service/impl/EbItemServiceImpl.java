@@ -14,12 +14,20 @@ import com.worthto.ecps.utils.QueryCondition;
 @Service
 public class EbItemServiceImpl implements IEbItemService {
 
-//	@Autowired
-//	private IEbItemDao itemDao;
-//	
+	@Autowired
+	private IEbItemDao itemDao;
+
 	public Page selectItemByCondition(QueryCondition queryCondition) {
-	//	List<EbItem>list = itemDao.selectItemByCondition(queryCondition);
-		return null;
+		Page page = new Page();
+		if (queryCondition.getPageNo()==null) {
+			queryCondition.setPageNo(1);
+		}else {
+			queryCondition.setPageNo(queryCondition.getPageNo());
+		}
+		List<EbItem> list = itemDao.selectItemByCondition(queryCondition);
+		page.setData(list);
+		page.setTotalCount(itemDao.selectItemByConditionCount(queryCondition));
+		return page;
 	}
 
 }

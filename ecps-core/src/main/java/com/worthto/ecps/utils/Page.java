@@ -2,10 +2,9 @@ package com.worthto.ecps.utils;
 
 import java.util.List;
 
-
 public class Page {
 	private Integer pageNo = 1;// 当前页码,需要设定
-	private Integer pageSize = 5;// 每页记录条数,需要设定
+	private Integer pageSize = Context.getInt("pageSize");// 每页记录条数,需要设定
 	private Integer totalCount = 0;// 总记录条数,需要设定
 	private List<?> data;// 当前页的数据,需要给定
 
@@ -26,10 +25,6 @@ public class Page {
 		return pageSize;
 	}
 
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
-
 	public Integer getTotalCount() {
 		return totalCount;
 	}
@@ -44,19 +39,11 @@ public class Page {
 	}
 
 	public Integer getStartNo() {
-		return startNo;
-	}
-
-	public void setStartNo(Integer startNo) {
-		this.startNo = startNo;
+		return pageSize*(pageNo-1);
 	}
 
 	public Integer getEndNo() {
-		return endNo;
-	}
-
-	public void setEndNo(Integer endNo) {
-		this.endNo = endNo;
+		return pageSize*pageNo+1;
 	}
 
 	public List<?> getData() {
@@ -65,6 +52,14 @@ public class Page {
 
 	public void setData(List<?> data) {
 		this.data = data;
+	}
+
+	@Override
+	public String toString() {
+		return "Page [pageNo=" + pageNo + ", pageSize=" + pageSize
+				+ ", totalCount=" + totalCount + ", data=" + data
+				+ ", totalPage=" + totalPage + ", startNo=" + startNo
+				+ ", endNo=" + endNo + "]";
 	}
 
 }

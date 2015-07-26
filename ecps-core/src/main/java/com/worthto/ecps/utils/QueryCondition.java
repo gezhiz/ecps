@@ -2,11 +2,11 @@ package com.worthto.ecps.utils;
 
 public class QueryCondition {
 	private Long brandId;
-	private short auditStatus;
-	private short showStatus;
+	private Short auditStatus;
+	private Short showStatus;
 	private String itemName;
-	private Integer endNum;
-	private Integer startNum;
+	private Integer endNum = Context.getInt("pageSize");
+	private Integer startNum = 0;
 	private Integer pageNo;
 
 	public Long getBrandId() {
@@ -17,19 +17,19 @@ public class QueryCondition {
 		this.brandId = brandId;
 	}
 
-	public short getAuditStatus() {
+	public Short getAuditStatus() {
 		return auditStatus;
 	}
 
-	public void setAuditStatus(short auditStatus) {
+	public void setAuditStatus(Short auditStatus) {
 		this.auditStatus = auditStatus;
 	}
 
-	public short getShowStatus() {
+	public Short getShowStatus() {
 		return showStatus;
 	}
 
-	public void setShowStatus(short showStatus) {
+	public void setShowStatus(Short showStatus) {
 		this.showStatus = showStatus;
 	}
 
@@ -63,6 +63,14 @@ public class QueryCondition {
 
 	public void setPageNo(Integer pageNo) {
 		this.pageNo = pageNo;
+	}
+
+	@Override
+	public String toString() {
+		return "QueryCondition [brandId=" + brandId + ", auditStatus="
+				+ auditStatus + ", showStatus=" + showStatus + ", itemName="
+				+ itemName + ", endNum=" + endNum + ", startNum=" + startNum
+				+ ", pageNo=" + pageNo + "]";
 	}
 
 }
