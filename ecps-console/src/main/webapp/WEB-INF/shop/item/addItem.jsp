@@ -14,9 +14,9 @@ $(document).ready(function(){
    
 		var fck = new FCKeditor("itemDesc");
 		fck.BasePath = "${path}/ecps/console/res/plugins/fckeditor/";
-		fck.Config["ImageUploadURL"] = "${path}/upload/uploadForFck.do?typeStr=Image";
+		//修改上传图片的路径
+		fck.Config["ImageUploadURL"] = "${path}/upload/uploadForFck.do";
 		fck.Height = 400;
-		fck.ToolbarSet = "Basic";
 		fck.ReplaceTextarea();
       
 
@@ -80,7 +80,7 @@ $(document).ready(function(){
 		}
 		
 	}
-    
+	
 });
 //==================================================================================================================
 $(function(){
@@ -122,6 +122,7 @@ $(function(){
 		var d=(++divNum);
 		var a=$(".sp_0:first").html();
 		
+		//字符串非完全替换
 		a = a.replace(/specradio1/g,"specradio"+d);
 		a = a.replace(/skuType1/g,"skuType"+d);
 		a = a.replace(/marketPrice1/g,"marketPrice"+d);
@@ -157,6 +158,26 @@ $(function(){
     $("#showStatus4").click(function(){
     	 $("#showStatus1").attr("value","1");
         });
+    
+    
+    $("#imgSize1File").change(function() {
+    	alert("修改了 ");
+		var options = {
+			url : '${path}/upload/uploadPic.do',
+			type : 'post',
+			dataType : 'text',
+			success : function(responseText) {
+				var jsonObj = $.parseJSON(responseText);
+				$("#imgSize1ImgSrc").attr("src",jsonObj.realPath);
+				$("#imgs").val(jsonObj.relativePath);
+				$("#lastPath").val(jsonObj.realPath);
+			},
+			error : function() {
+				alert("系统错误");
+			}
+		};
+		$("#myForm").ajaxSubmit(options);//jQuery-form提供的异步提交表单的方式
+	});
 });
 
 //商品规格的redio选中与取消
@@ -249,43 +270,41 @@ function submitImgSize1Upload() {
         	<option value="${brand.brandId }">${brand.brandName }</option>
         </c:forEach>
 	</select></p>
-	
-	
-	
-
 	<div id="tagId" class="up_box" style="display:none">
-	
-		
-		
 	</div>
    	<p><label>促销语：</label>
    		<input type="text" id="promotion" name="promotion" reg1="^(.{0,100})$" desc="100以内任意字符" class="text state"  value="${ebItem.promotion}" maxlength="100"/>
    		<span class="pos"></span>
    	</p>
-    <p><label>状态：</label>
-    	<input  name="isNew" type="checkbox" value="1" />新品&nbsp;&nbsp;
-    	<input  name="isGood" type="checkbox" value="1" />推荐&nbsp;&nbsp;
-    	<input  name="isHot" type="checkbox" value="1" />热卖
+    <p><label>是否新品：</label>
+    	<input  name="isNew" type="radio" value="1" checked="checked"/>是&nbsp;&nbsp;
+    	<input  name="isNew" type="radio" value="0" />否&nbsp;&nbsp;
+    </p>
+    <p><label>是否推荐：</label>
+    	<input  name="isGood" type="radio" value="1" checked="checked"/>是&nbsp;&nbsp;
+    	<input  name="isGood" type="radio" value="0" />否&nbsp;&nbsp;
+    </p>
+    <p><label>是否热卖：</label>
+    	<input  name="isHot" type="radio" value="1" />是&nbsp;&nbsp;
+    	<input  name="isHot" type="radio" value="0" checked="checked" />否&nbsp;&nbsp;
     </p>
     <a name="uploadImgs" id="uploadImgs"></a>
     <p><label><samp>*</samp>上传商品图片(90x150尺寸)：</label><span id="uploadImgTip1" class="orange">注:该尺寸图片必须为90x150。</span></p>
     <p><label></label>
 		<img id='imgSize1ImgSrc' src='${path}/ecps/console/images/logo266x64.png'  height="100" width="100" />
-		<input type='file' id='imgSize1File' name='imgSize1File' class="file" onchange='submitImgSize1Upload()' /><span class="pos" id="imgSize1FileSpan">请上传图片的大小不超过3MB</span>
+		<input type='file' id='imgSize1File' name='imgsFile' class="file" onchange='submitImgSize1Upload()' /><span class="pos" id="imgSize1FileSpan">请上传图片的大小不超过3MB</span>
+		<input id="lastPath" type="hidden" name="lastPath" value=""/>
+		<input type="hidden" id="imgs" name="imgs" value="${ebItem.imgs }"/>
 		<input type='hidden' id='imgSize1Action' name='imgSize1Action' value='${path}/uploads/upload_pic.do' />
         <input type='hidden' id='imgSize1' name='imgSize1' value='' reg="^.+$" tip="亲！您忘记上传图片了。" />
 	</p>
-	
-	
-
 	<p>
-	
 	<label>页面关键词：</label><input type="text" reg1="^.{0,50}$" desc="50个字符以内" id="keywords" name="keywords" class="text state" value="${ebItem.keywords}"/>
 	</p>
 	<p><label class="alg_t">页面描述：</label><textarea  id="pageDesc" reg1="^(.|\n){0,130}$" desc="130个以内的任意字符" name="pageDesc" class="are" rows="6" cols="45">${ebItem.pageDesc}</textarea>
 	</p>
-    <input type="hidden" name="auditStatus" value="0" />
-    <input type="hidden" name="showStatus" value="1" />
+    <!-- <input type="hidden" name="auditStatus" value="0" />
+    <input type="hidden" name="showStatus" value="1" /> -->
 </div>
 
 <div id="tab_2" class="edit" style="display: none">
@@ -297,6 +316,7 @@ function submitImgSize1Upload() {
     <c:if test="${fn:length(paraList) == 0}">
     <p><label></label>无属性</p>
     </c:if>
+    	<!-- 用select方式展示数据 -->
 	    <c:forEach items="${paraList }" var="para">
 	    	<p><label>${para.featureName}：</label>
 		    	<c:if test="${para.inputType == 1 }">
@@ -307,13 +327,16 @@ function submitImgSize1Upload() {
 		    			</c:forEach>
 		    		</select>
 		    	</c:if>
+		    	<!--用radio方式展示的属性  -->
 		    	<c:if test="${para.inputType == 2 }">
+		    			    	<!--用id保证每一行的数据共享一个name-->
 		    		<input type="radio" name="${para.featureId }" value="" checked="checked">无&nbsp;
 		    		<c:forEach items="${para.selectValues }" var="val">
 		    			<input type="radio" name="${para.featureId }" value="${val }">${val }&nbsp;
 		    		</c:forEach>
 		    		
 		    	</c:if>
+		    		<!--用checkbox方式展示的属性  -->
 		    	<c:if test="${para.inputType == 3 }">
 		    		<c:forEach items="${para.selectValues }" var="val">
 		    			<input type="checkbox" name="${para.featureId }" value="${val }">${val }&nbsp;
@@ -330,14 +353,11 @@ function submitImgSize1Upload() {
 </div>
 
 <div id="tab_4" style="display:none">
-	
-	
     <div id="sp_0" class="sp_0">
         <table cellspacing="0" summary="" class="tab3">
             <c:if test="${fn:length(specList) == 0}">
             <tr><th colspan="2" class="gray b">&nbsp;&nbsp;<b>默认</b></th></tr>
             </c:if>
-            
            <c:forEach items="${specList }" var="spec">
            		<tr>
            			<td>${spec.featureName }:</td>
@@ -348,7 +368,6 @@ function submitImgSize1Upload() {
 	           					<input type="radio" name="${spec.featureId }specradio1" class="specValue1" value="${val }">${val }&nbsp;
 	           				</c:forEach>				  
            				</c:if>
-           				
            			</td>
            		</tr>
            </c:forEach>
@@ -391,14 +410,11 @@ function submitImgSize1Upload() {
                 </table>
             </td></tr>
         </table>
-
     </div>
-    
     <c:if test="${fn:length(specList) != 0}">
         <div class="page_c"><span class="r"><input type="button" value="增加规格" id="button2" name="button2" class="hand btn80x20" /></span></div>
     </c:if>
 </div>
-
 
 <div class="loc">&nbsp;</div>
 

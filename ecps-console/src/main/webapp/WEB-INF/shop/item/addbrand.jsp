@@ -76,6 +76,7 @@
 			}
 		});
 
+		//上传平拍logo图片
 		$("#imgsFile").change(function() {
 			if (!validate_notnull($(this))) {
 				return;

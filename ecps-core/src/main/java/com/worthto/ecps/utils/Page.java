@@ -6,7 +6,7 @@ public class Page {
 	private Integer pageNo = 1;// 当前页码,需要设定
 	private Integer pageSize = Context.getInt("pageSize");// 每页记录条数,需要设定
 	private Integer totalCount = 0;// 总记录条数,需要设定
-	private List<?> data;// 当前页的数据,需要给定
+	private List<?> items;// 当前页的数据,需要给定
 
 	private Integer totalPage = 0;// 总页数
 
@@ -34,30 +34,30 @@ public class Page {
 	}
 
 	public Integer getTotalPage() {
-		totalPage = totalCount / pageSize + totalCount % pageSize == 0 ? 0 : 1;
+		totalPage = totalCount / pageSize + (totalCount % pageSize == 0 ? 0 : 1);
 		return totalPage;
 	}
 
 	public Integer getStartNo() {
-		return pageSize*(pageNo-1);
+		return pageSize * (pageNo - 1);
 	}
 
 	public Integer getEndNo() {
-		return pageSize*pageNo+1;
+		return pageSize * pageNo + 1;
 	}
 
-	public List<?> getData() {
-		return data;
+	public List<?> getItems() {
+		return items;
 	}
 
-	public void setData(List<?> data) {
-		this.data = data;
+	public void setItems(List<?> items) {
+		this.items = items;
 	}
 
 	@Override
 	public String toString() {
 		return "Page [pageNo=" + pageNo + ", pageSize=" + pageSize
-				+ ", totalCount=" + totalCount + ", data=" + data
+				+ ", totalCount=" + totalCount + ", items=" + items
 				+ ", totalPage=" + totalPage + ", startNo=" + startNo
 				+ ", endNo=" + endNo + "]";
 	}

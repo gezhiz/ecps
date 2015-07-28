@@ -7,6 +7,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<mappers>
 		<mapper resource="com/worthto/ecps/mapper/EbBrandMapper.xml"/>
 		<mapper resource="com/worthto/ecps/mapper/EbItemMapper.xml"/>
+		<mapper resource="com/worthto/ecps/mapper/EbCatMapper.xml"/>
+		<mapper resource="com/worthto/ecps/mapper/EbFeatureMapper.xml"/>
+		<mapper resource="com/worthto/ecps/mapper/EbItemClobMapper.xml"/>
+		<mapper resource="com/worthto/ecps/mapper/EbParaValueMapper.xml"/>
+		<mapper resource="com/worthto/ecps/mapper/EbSkuMapper.xml"/>
+		<mapper resource="com/worthto/ecps/mapper/EbSpecValueMapper.xml"/>
 	</mappers>
 
 </configuration>

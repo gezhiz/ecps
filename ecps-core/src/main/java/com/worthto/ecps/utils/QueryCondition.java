@@ -5,8 +5,8 @@ public class QueryCondition {
 	private Short auditStatus;
 	private Short showStatus;
 	private String itemName;
-	private Integer endNum = Context.getInt("pageSize");
-	private Integer startNum = 0;
+	private Integer endNo = Context.getInt("pageSize") + 1;
+	private Integer startNo = 0;
 	private Integer pageNo;
 
 	public Long getBrandId() {
@@ -41,20 +41,20 @@ public class QueryCondition {
 		this.itemName = itemName;
 	}
 
-	public Integer getEndNum() {
-		return endNum;
+	public Integer getEndNo() {
+		return endNo;
 	}
 
-	public void setEndNum(Integer endNum) {
-		this.endNum = endNum;
+	public void setEndNo(Integer endNo) {
+		this.endNo = endNo;
 	}
 
-	public Integer getStartNum() {
-		return startNum;
+	public Integer getStartNo() {
+		return startNo;
 	}
 
-	public void setStartNum(Integer startNum) {
-		this.startNum = startNum;
+	public void setStartNo(Integer startNo) {
+		this.startNo = startNo;
 	}
 
 	public Integer getPageNo() {
@@ -69,7 +69,7 @@ public class QueryCondition {
 	public String toString() {
 		return "QueryCondition [brandId=" + brandId + ", auditStatus="
 				+ auditStatus + ", showStatus=" + showStatus + ", itemName="
-				+ itemName + ", endNum=" + endNum + ", startNum=" + startNum
+				+ itemName + ", endNo=" + endNo + ", startNo=" + startNo
 				+ ", pageNo=" + pageNo + "]";
 	}
 

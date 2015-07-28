@@ -14,11 +14,22 @@ public class ItemDaoImpl extends SqlSessionDaoSupport implements IEbItemDao {
 	private String namespace = "com.worthto.ecps.mapper.EbItemMapper.";
 
 	public List<EbItem> selectItemByCondition(QueryCondition queryCondition) {
-		return getSqlSession().selectList(namespace+"selectItemByCondition",queryCondition);
+		return getSqlSession().selectList(namespace + "selectItemByCondition",
+				queryCondition);
 	}
 
 	public int selectItemByConditionCount(QueryCondition queryCondition) {
-		return getSqlSession().selectOne(namespace+"selectItemByConditionCount",queryCondition);
+		return getSqlSession().selectOne(
+				namespace + "selectItemByConditionCount", queryCondition);
+	}
+
+	public EbItem selectItemById(Long itemId) {
+		return getSqlSession().selectOne(namespace + "selectByPrimaryKey",
+				itemId);
+	}
+
+	public void insert(EbItem item) {
+		getSqlSession().insert(namespace + "insert",item);
 	}
 
 }

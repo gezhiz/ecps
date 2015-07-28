@@ -1,6 +1,8 @@
 package com.worthto.ecps.controller;
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.worthto.ecps.model.EbBrand;
+import com.worthto.ecps.model.EbCat;
+import com.worthto.ecps.model.EbFeature;
+import com.worthto.ecps.model.EbItem;
+import com.worthto.ecps.model.EbItemClob;
+import com.worthto.ecps.model.EbParaValue;
+import com.worthto.ecps.model.EbSku;
+import com.worthto.ecps.model.EbSpecValue;
 import com.worthto.ecps.service.IEbBrandService;
+import com.worthto.ecps.service.IEbCatService;
+import com.worthto.ecps.service.IEbFeatureService;
+import com.worthto.ecps.service.IEbItemClobService;
 import com.worthto.ecps.service.IEbItemService;
 import com.worthto.ecps.utils.EcpsUtils;
 import com.worthto.ecps.utils.Page;
@@ -27,6 +39,12 @@ public class EbItemController {
 	private IEbBrandService brandService;
 	@Autowired
 	private IEbItemService itemService;
+	@Autowired
+	private IEbCatService catService;
+	@Autowired
+	private IEbFeatureService featureService;
+	@Autowired
+	private IEbItemClobService itemClobService;
 
 	@RequestMapping("/brand/index.do")
 	public String toIndex() {
@@ -110,14 +128,56 @@ public class EbItemController {
 	}
 
 	@RequestMapping("/queryItemByCondtion.do")
-	public String listItem(Model model, HttpServletRequest request,QueryCondition queryCondition) {
+	public String listItem(Model model, HttpServletRequest request,
+			QueryCondition queryCondition) {
 		List<EbBrand> bList = brandService.selectEbBrandAll();
 		model.addAttribute("bList", bList);
-		
+
 		Page page = itemService.selectItemByCondition(queryCondition);
-		model.addAttribute("page",page);
-		model.addAttribute("queryCondition",queryCondition);
+		model.addAttribute("page", page);
+		model.addAttribute("queryCondition", queryCondition);
 		return "item/listItem";
+	}
+
+	// 处理查看商品的请求
+	@RequestMapping("/viewItem.do")
+	public String viewItem(Model model, Long itemId) {
+		System.out.println(itemId);
+		EbItem ebItem = itemService.selectItemById(itemId);
+		model.addAttribute("ebItem", ebItem);
+		EbCat ebCat = catService.selectCatById(ebItem.getCatId());
+		model.addAttribute("ebCat", ebCat);
+		List<EbBrand> blist = brandService.selectEbBrandAll();
+		model.addAttribute("blist", blist);
+
+		return "/item/viewItem";
+	}
+
+	// 处理跳转到添加商品页面的请求
+	@RequestMapping("/toAddItem.do")
+	public String toAddItem(Model model) {
+		List<EbBrand> bList = brandService.selectEbBrandAll();
+		model.addAttribute("bList", bList);
+		List<EbFeature> paraList = featureService.selectCommFeatures();
+		List<EbFeature> specList = featureService.selectSpecFeatures();
+		model.addAttribute("paraList", paraList);
+		model.addAttribute("specList", specList);
+		return "/item/addItem";
+	}
+
+	// 处理添加商品请求
+	@RequestMapping("/addItem.do")
+	public String addItem(Model model, EbItem item, EbItemClob itemClob,
+			EbParaValue paraValue, EbSku sku, EbSpecValue specValue,
+			EbFeature feature) {
+		// 准备好商品的数据插入
+		item.setItemNo(new SimpleDateFormat("yyyyMMddss").format(new Date()));
+		itemService.insert(item);
+		// 准备好商品大字段的数据插入
+		itemClob.setItemId(item.getItemId());
+		itemClobService.insert(itemClob);
+
+		return "redirect:/item/queryItemByCondtion.do";
 	}
 
 }

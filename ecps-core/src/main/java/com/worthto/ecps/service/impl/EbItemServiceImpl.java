@@ -19,15 +19,25 @@ public class EbItemServiceImpl implements IEbItemService {
 
 	public Page selectItemByCondition(QueryCondition queryCondition) {
 		Page page = new Page();
-		if (queryCondition.getPageNo()==null) {
+		if (queryCondition.getPageNo() == null) {
 			queryCondition.setPageNo(1);
-		}else {
-			queryCondition.setPageNo(queryCondition.getPageNo());
+		} else {
+			page.setPageNo(queryCondition.getPageNo());
 		}
+		queryCondition.setStartNo(page.getStartNo());
+		queryCondition.setEndNo(page.getEndNo());
 		List<EbItem> list = itemDao.selectItemByCondition(queryCondition);
-		page.setData(list);
+		page.setItems(list);
 		page.setTotalCount(itemDao.selectItemByConditionCount(queryCondition));
 		return page;
+	}
+
+	public EbItem selectItemById(Long itemId) {
+		return itemDao.selectItemById(itemId);
+	}
+
+	public void insert(EbItem item) {
+		itemDao.insert(item);
 	}
 
 }
